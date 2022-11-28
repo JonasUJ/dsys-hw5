@@ -91,8 +91,11 @@ func (*Frontend) Crash(context.Context, *frontend.Void) (*frontend.Void, error) 
 func (f *Frontend) CrashReplica(ctx context.Context, void *frontend.Void) (*frontend.Void, error) {
 	Logger.Printf("replica crash requested")
 
+	// Shallow copy before shuffling
+	replicas := make([]replica.ReplicaClient, len(f.replicas))
+	copy(replicas, f.replicas)
+
 	// Shuffle replicas
-	replicas := f.replicas
 	rand.Shuffle(len(replicas), func(i, j int) {
 		replicas[i], replicas[j] = replicas[j], replicas[i]
 	})
