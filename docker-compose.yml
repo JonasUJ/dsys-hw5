@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  discovery:
+    build:
+      context: .
+      dockerfile: cmd/discovery/Dockerfile
+    volumes:
+      - ./logs:/app/logs
+  replica:
+    build:
+      context: .
+      dockerfile: cmd/replica/Dockerfile
+    depends_on:
+      - discovery
+    volumes:
+      - ./logs:/app/logs
+  frontend:
+    build:
+      context: .
+      dockerfile: cmd/frontend/Dockerfile
+    depends_on:
+      - replica
+      - discovery
+    volumes:
+      - ./logs:/app/logs
+  tcp-proxy:
+    image: hpello/tcp-proxy
+    command: frontend 50050
+    ports:
+      - 50050:50050
+    depends_on:
+      - frontend

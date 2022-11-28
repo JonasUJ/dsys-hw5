@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package discovery;
+
+option go_package = "./pkg/grpc/discovery";
+
+service Discovery {
+    rpc RegisterReplica(Node) returns (Void);
+    rpc Replicas(Void) returns (stream Node);
+}
+
+message Node { string host = 1; }
+
+message Void {}

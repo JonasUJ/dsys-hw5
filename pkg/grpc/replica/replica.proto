@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package replica;
+
+option go_package = "./pkg/grpc/replica";
+
+service Replica {
+    rpc Bid(Amount) returns (BidResponse);
+    rpc Result(Void) returns (Amount);
+    rpc End(Amount) returns (Amount);
+    rpc Crash(Void) returns (Void);
+}
+
+enum BidResponseStatus {
+    Success = 0;
+    Fail = 1;
+}
+
+message Amount { uint64 amount = 1; }
+
+message BidResponse { BidResponseStatus status = 1; }
+
+message Void {}
