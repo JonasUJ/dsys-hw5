@@ -1,0 +1,90 @@
+// Starting system
+dsys-hw5-discovery-1  | 21:22:56 serving on :50050
+dsys-hw5-replica-5    | 21:22:58 dialing discovery:50050
+dsys-hw5-discovery-1  | 21:22:58 registering new replica '172.18.0.3'
+dsys-hw5-replica-5    | 21:22:58 serving on :50050
+dsys-hw5-replica-3    | 21:22:58 dialing discovery:50050
+dsys-hw5-discovery-1  | 21:22:58 registering new replica '172.18.0.4'
+dsys-hw5-replica-3    | 21:22:58 serving on :50050
+dsys-hw5-replica-4    | 21:22:58 dialing discovery:50050
+dsys-hw5-discovery-1  | 21:22:58 registering new replica '172.18.0.5'
+dsys-hw5-replica-4    | 21:22:58 serving on :50050
+dsys-hw5-frontend-2   | 21:23:00 dialing discovery:50050
+dsys-hw5-frontend-2   | 21:23:00 serving on :50050
+dsys-hw5-frontend-2   | 21:23:00 adding replica '172.18.0.3'
+dsys-hw5-frontend-2   | 21:23:00 dialing 172.18.0.3:50050
+dsys-hw5-frontend-2   | 21:23:00 adding replica '172.18.0.4'
+dsys-hw5-frontend-2   | 21:23:00 dialing 172.18.0.4:50050
+dsys-hw5-frontend-2   | 21:23:00 adding replica '172.18.0.5'
+dsys-hw5-frontend-2   | 21:23:00 dialing 172.18.0.5:50050
+dsys-hw5-frontend-1   | 21:23:00 dialing discovery:50050
+dsys-hw5-frontend-1   | 21:23:00 serving on :50050
+dsys-hw5-frontend-1   | 21:23:00 adding replica '172.18.0.3'
+dsys-hw5-frontend-1   | 21:23:00 dialing 172.18.0.3:50050
+dsys-hw5-frontend-1   | 21:23:00 adding replica '172.18.0.4'
+dsys-hw5-frontend-1   | 21:23:00 dialing 172.18.0.4:50050
+dsys-hw5-frontend-1   | 21:23:00 adding replica '172.18.0.5'
+dsys-hw5-frontend-1   | 21:23:00 dialing 172.18.0.5:50050
+dsys-hw5-tcp-proxy-1  | relay TCP/IP connections on :50050 to frontend:50050
+// System is ready
+
+// A client bids 1
+dsys-hw5-frontend-2   | 21:23:08 received bid 1
+dsys-hw5-replica-5    | 21:23:08 received bid request of 1
+dsys-hw5-replica-5    | 21:23:08 bid of 1 success
+dsys-hw5-replica-3    | 21:23:08 received bid request of 1
+dsys-hw5-replica-3    | 21:23:08 bid of 1 success
+dsys-hw5-replica-4    | 21:23:08 received bid request of 1
+dsys-hw5-replica-4    | 21:23:08 bid of 1 success
+dsys-hw5-frontend-2   | 21:23:08 bid 1 was successful
+
+// A client bids 2
+dsys-hw5-frontend-1   | 21:23:11 received bid 2
+dsys-hw5-replica-5    | 21:23:11 received bid request of 2
+dsys-hw5-replica-5    | 21:23:11 bid of 2 success
+dsys-hw5-replica-3    | 21:23:11 received bid request of 2
+dsys-hw5-replica-3    | 21:23:11 bid of 2 success
+dsys-hw5-replica-4    | 21:23:11 received bid request of 2
+dsys-hw5-replica-4    | 21:23:11 bid of 2 success
+dsys-hw5-frontend-1   | 21:23:11 bid 2 was successful
+dsys-hw5-frontend-2   | 21:23:13 received bid 2
+
+// A client bids 2 (not necessarily the same client)
+dsys-hw5-replica-5    | 21:23:13 received bid request of 2
+dsys-hw5-replica-5    | 21:23:13 bid of 2 failed
+dsys-hw5-frontend-2   | 21:23:13 replica 0 failed our request to bid 2
+
+// A replica crashes
+dsys-hw5-frontend-1   | 21:23:18 replica crash requested
+dsys-hw5-replica-5    | 21:23:19 replica crash requested
+dsys-hw5-replica-5 exited with code 1
+
+// A client bids 5
+dsys-hw5-frontend-2   | 21:23:25 received bid 5
+dsys-hw5-replica-3    | 21:23:25 received bid request of 5
+dsys-hw5-replica-3    | 21:23:25 bid of 5 success
+dsys-hw5-replica-4    | 21:23:25 received bid request of 5
+dsys-hw5-replica-4    | 21:23:25 bid of 5 success
+dsys-hw5-frontend-2   | 21:23:25 bid 5 was successful
+
+// A client requests the result
+dsys-hw5-frontend-1   | 21:23:29 result requested
+dsys-hw5-replica-3    | 21:23:29 result 5 requested
+dsys-hw5-frontend-1   | 21:23:29 replica 1 responded with result 5
+
+// A frontend ends the auction
+dsys-hw5-frontend-2   | 21:23:41 ending auction
+// 0 jsut means that this replica get to decide what the final value is
+dsys-hw5-replica-3    | 21:23:41 end auction requested at 0
+dsys-hw5-replica-4    | 21:23:41 end auction requested at 5
+// Another frontend ends the auction
+// Since it is already ended, this does not change anything
+dsys-hw5-frontend-1   | 21:23:41 ending auction
+dsys-hw5-replica-3    | 21:23:41 end auction requested at 0
+dsys-hw5-replica-4    | 21:23:41 end auction requested at 5
+
+// A client bids 100
+dsys-hw5-frontend-1   | 21:25:50 received bid 100
+dsys-hw5-replica-3    | 21:25:50 received bid request of 100
+dsys-hw5-replica-3    | 21:25:50 auction is ended, no bid failed
+dsys-hw5-frontend-1   | 21:25:50 replica 1 failed our request to bid 100
