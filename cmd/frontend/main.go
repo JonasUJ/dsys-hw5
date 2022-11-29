@@ -12,6 +12,8 @@ import (
 	. "main/pkg/logging"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 func main() {
@@ -43,10 +45,16 @@ func main() {
 
 		amt := &replica.Amount{}
 		for _, r := range f.replicas {
-			var err error
-			amt, err = r.End(context.Background(), amt)
+			ctx, cancel := context.WithTimeout(context.Background(), time.Millisecond*200)
+			defer cancel()
+
+			newAmt, err := r.End(ctx, amt)
 			if err != nil {
-				Logger.Printf("%v", err)
+				if status.Code(err) != codes.DeadlineExceeded {
+					Logger.Printf("%v", err)
+				}
+			} else {
+				amt = newAmt
 			}
 		}
 	})
